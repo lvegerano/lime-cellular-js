@@ -5,7 +5,6 @@ const mockRequire = require('mock-require');
 
 const sandbox = sinon.createSandbox();
 const { stub } = sandbox;
-
 const fetchStub = stub();
 const fetchResponse = {
   text: stub(),
@@ -19,18 +18,6 @@ fetchStub.resolves(fetchResponse);
 
 mockRequire('node-fetch', fetchStub);
 mockRequire('xml-js', xml2JsStub);
-// proxyrequire('../lib', {
-//   'node-fetch': fetchStub,
-//   '@noCallThru': true
-// });
-
-// const Provider = proxyquire('../src/a.provider', {
-//   './b.provider': {
-//     getThing: () => 'b-thing',
-//     '@noCallThru': true
-//   },
-// });
-
 
 const lib = require('../lib')
 
@@ -60,6 +47,10 @@ describe('Lime Celullar SDK', function () {
       sdk = lib(creds);
     });
 
+    afterEach(function () {
+      sandbox.resetHistory();
+    });
+
     it('defines a function getAll', async function () {
       const apiCall = 'https://mcpn.us/limeApi?ev=getAdvertisersList&all=true&user=luisvegerano&api_id=supersecretapikey';
       assert.isFunction(sdk.advertiser.getAll);
@@ -68,13 +59,20 @@ describe('Lime Celullar SDK', function () {
       sinon.assert.calledWithExactly(fetchStub, apiCall);
     });
 
-    it('defines a function getById', function () {
-      const apiCall = 'https://mcpn.us/limeApi?ev=getAdvertisersList&all=true';
+    it('defines a function getById', async function () {
+      const apiCall = 'https://mcpn.us/limeApi?ev=getAdvertisersList&advertiserId=34&user=luisvegerano&api_id=supersecretapikey';
       assert.isFunction(sdk.advertiser.getById);
+      await sdk.advertiser.getById(34);
+      sinon.assert.calledOnce(fetchStub);
+      sinon.assert.calledWithExactly(fetchStub, apiCall);
     });
 
-    it('defines a function getByUserName', function () {
+    it('defines a function getByUserName', async function () {
+      const apiCall = 'https://mcpn.us/limeApi?ev=getAdvertisersList&advertiserUserName=foobar&user=luisvegerano&api_id=supersecretapikey';
       assert.isFunction(sdk.advertiser.getByUserName);
+      await sdk.advertiser.getByUserName('foobar');
+      sinon.assert.calledOnce(fetchStub);
+      sinon.assert.calledWithExactly(fetchStub, apiCall);
     });
   });
 

@@ -1,0 +1,27 @@
+{
+  "name": "lime-cellular",
+  "version": "1.0.0",
+  "description": "Lime cellular basic API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luis Vegerano <lvegerano422@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "hoek": "^5.0.3",
+    "node-fetch": "^2.1.2",
+    "rm": "^0.1.8",
+    "xml-js": "^1.6.7"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^5.2.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "mocha": "^5.2.0",
+    "mock-require": "^3.0.2",
+    "proxyquire": "^2.0.1",
+    "sinon": "^6.1.4"
+  }
+}

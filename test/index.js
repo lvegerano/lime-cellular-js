@@ -38,7 +38,7 @@ describe('Lime Celullar SDK', function () {
 
   describe('advertiser api', function () {
     let sdk;
-    
+
     before(function () {
       const creds = {
         ADMIN_API_ID: 'supersecretapikey',
@@ -71,6 +71,46 @@ describe('Lime Celullar SDK', function () {
       const apiCall = 'https://mcpn.us/limeApi?ev=getAdvertisersList&advertiserUserName=foobar&user=luisvegerano&api_id=supersecretapikey';
       assert.isFunction(sdk.advertiser.getByUserName);
       await sdk.advertiser.getByUserName('foobar');
+      sinon.assert.calledOnce(fetchStub);
+      sinon.assert.calledWithExactly(fetchStub, apiCall);
+    });
+  });
+
+  describe('opt-in lists api', function () {
+    let sdk;
+
+    before(function () {
+      const creds = {
+        ADMIN_API_ID: 'supersecretapikey',
+        ADMIN_USERNAME: 'luisvegerano',
+      };
+      sdk = lib(creds);
+    });
+
+    afterEach(function () {
+      sandbox.resetHistory();
+    });
+
+    it('defines a function getAll', async function () {
+      const apiCall = 'https://mcpn.us/limeApi?ev=optInLists&all=true&user=coolAdvertiser&api_id=advertiserSecretAPI';
+      assert.isFunction(sdk.optInList.getAll);
+      await sdk.optInList.getAll('coolAdvertiser', 'advertiserSecretAPI');
+      sinon.assert.calledOnce(fetchStub);
+      sinon.assert.calledWithExactly(fetchStub, apiCall);
+    });
+
+    it('defines a function getById', async function () {
+      const apiCall = 'https://mcpn.us/limeApi?ev=optInLists&listid=33&user=coolAdvertiser&api_id=advertiserSecretAPI';
+      assert.isFunction(sdk.optInList.getById);
+      await sdk.optInList.getById('coolAdvertiser', 'advertiserSecretAPI', 33);
+      sinon.assert.calledOnce(fetchStub);
+      sinon.assert.calledWithExactly(fetchStub, apiCall);
+    });
+
+    it('defines a function getByName', async function () {
+      const apiCall = 'https://mcpn.us/limeApi?ev=optInLists&name=coolListName&user=coolAdvertiser&api_id=advertiserSecretAPI';
+      assert.isFunction(sdk.optInList.getByName);
+      await sdk.optInList.getByName('coolAdvertiser', 'advertiserSecretAPI', 'coolListName');
       sinon.assert.calledOnce(fetchStub);
       sinon.assert.calledWithExactly(fetchStub, apiCall);
     });

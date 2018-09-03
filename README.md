@@ -9,7 +9,6 @@ This module implements a few of lime cellulars api.
 
 ## Usage
 ```javascript
-
 const LimeCellular = require('lime-cellular')
 const ADMIN_API_ID = 'SECRETAPIID',
 const ADMIN_USERNAME = 'ADMINUSERNAME',
@@ -18,9 +17,9 @@ const json = LimeCellular.advertiser.getAll(ADMIN_USERNAME, ADMIN_API_ID);
 # API
 
 ### Advertiser API
-#### adversiser.getAll()
-#### adversiser.getById(advertiserId)
-#### adversiser.getByUserName(advertiserUserName)
+#### adversiser.getAll(ADMIN_USERNAME, ADMIN_API_ID)
+#### adversiser.getById(ADMIN_USERNAME, ADMIN_API_ID, advertiserId)
+#### adversiser.getByUserName(ADMIN_USERNAME, ADMIN_API_ID, advertiserUserName)
 
 ### Generate API ID
 #### generateApiId(adminUserName, adminApiId, advertiserUserName)

@@ -20,34 +20,13 @@ fetchStub.resolves(fetchResponse);
 mockRequire('node-fetch', fetchStub);
 mockRequire('xml-js', xml2JsStub);
 
-const lib = require('../lib')
+const sdk = require('../lib');
+const ADMIN_API_ID = 'supersecretapikey';
+const ADMIN_USERNAME = 'luisvegerano';
 
 describe('Lime Celullar SDK', function () {
 
-  describe('config', function () {
-
-    it('should throw if ADMIN_API is not set', function () {
-      const throws = () => lib({ ADMIN_API: 'FOO' });
-      assert.throws(throws);
-    });
-
-    it('should throw if ADMIN_USERNAME is not set', function () {
-      const throws = () => lib({ ADMIN_USERNAME: 'FOO' });
-      assert.throws(throws);
-    });
-  });
-
   describe('advertiser api', function () {
-    let sdk;
-
-    before(function () {
-      const creds = {
-        ADMIN_API_ID: 'supersecretapikey',
-        ADMIN_USERNAME: 'luisvegerano',
-      };
-      sdk = lib(creds);
-    });
-
     afterEach(function () {
       sandbox.resetHistory();
     });
@@ -55,7 +34,7 @@ describe('Lime Celullar SDK', function () {
     it('defines a function getAll', async function () {
       const apiCall = 'https://mcpn.us/limeApi?ev=getAdvertisersList&all=true&user=luisvegerano&api_id=supersecretapikey';
       assert.isFunction(sdk.advertiser.getAll);
-      await sdk.advertiser.getAll();
+      await sdk.advertiser.getAll(ADMIN_USERNAME, ADMIN_API_ID);
       sinon.assert.calledOnce(fetchStub);
       sinon.assert.calledWithExactly(fetchStub, apiCall);
     });
@@ -63,7 +42,7 @@ describe('Lime Celullar SDK', function () {
     it('defines a function getById', async function () {
       const apiCall = 'https://mcpn.us/limeApi?ev=getAdvertisersList&advertiserId=34&user=luisvegerano&api_id=supersecretapikey';
       assert.isFunction(sdk.advertiser.getById);
-      await sdk.advertiser.getById(34);
+      await sdk.advertiser.getById(ADMIN_USERNAME, ADMIN_API_ID, 34);
       sinon.assert.calledOnce(fetchStub);
       sinon.assert.calledWithExactly(fetchStub, apiCall);
     });
@@ -71,23 +50,13 @@ describe('Lime Celullar SDK', function () {
     it('defines a function getByUserName', async function () {
       const apiCall = 'https://mcpn.us/limeApi?ev=getAdvertisersList&advertiserUserName=foobar&user=luisvegerano&api_id=supersecretapikey';
       assert.isFunction(sdk.advertiser.getByUserName);
-      await sdk.advertiser.getByUserName('foobar');
+      await sdk.advertiser.getByUserName(ADMIN_USERNAME, ADMIN_API_ID,'foobar');
       sinon.assert.calledOnce(fetchStub);
       sinon.assert.calledWithExactly(fetchStub, apiCall);
     });
   });
 
   describe('opt-in lists api', function () {
-    let sdk;
-
-    before(function () {
-      const creds = {
-        ADMIN_API_ID: 'supersecretapikey',
-        ADMIN_USERNAME: 'luisvegerano',
-      };
-      sdk = lib(creds);
-    });
-
     afterEach(function () {
       sandbox.resetHistory();
     });
@@ -118,16 +87,6 @@ describe('Lime Celullar SDK', function () {
   });
 
   describe('opt-in numbers api', function () {
-    let sdk;
-
-    before(function () {
-      const creds = {
-        ADMIN_API_ID: 'supersecretapikey',
-        ADMIN_USERNAME: 'luisvegerano',
-      };
-      sdk = lib(creds);
-    });
-
     afterEach(function () {
       sandbox.resetHistory();
     });
@@ -149,16 +108,6 @@ describe('Lime Celullar SDK', function () {
   });
 
   describe('generate api id', function () {
-    let sdk;
-
-    before(function () {
-      const creds = {
-        ADMIN_API_ID: 'supersecretapikey',
-        ADMIN_USERNAME: 'luisvegerano',
-      };
-      sdk = lib(creds);
-    });
-
     afterEach(function () {
       sandbox.resetHistory();
     });

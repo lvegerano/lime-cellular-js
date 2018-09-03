@@ -1,6 +1,6 @@
 {
   "name": "lime-cellular",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Lime cellular basic API",
   "main": "index.js",
   "scripts": {
